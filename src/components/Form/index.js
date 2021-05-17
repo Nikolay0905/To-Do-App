@@ -1,10 +1,9 @@
-import "bootstrap/dist/css/bootstrap.min.css";
-
 import { Row, Col, Container } from "react-bootstrap";
 
 const form = () => {
 	const focusInput = (event) => {
-		event.target.parentElement.previousSibling.focus();
+		event.target.previousSibling.focus();
+		// console.log(event.target.previousSibling);
 	};
 
 	return (
