@@ -1,14 +1,31 @@
-import { Row, Col, Container } from "react-bootstrap";
+import React, { useState } from "react";
+import { connect } from "react-redux";
 
-const form = () => {
+import { Row, Col, Container } from "react-bootstrap";
+import * as actions from "../../Store/actions";
+
+const Form = (props) => {
+	const [todoText, setTodoText] = useState("");
+
 	const focusInput = (event) => {
+		event.preventDefault();
 		event.target.previousSibling.focus();
-		// console.log(event.target.previousSibling);
+	};
+	const submitHandler = (event) => {
+		event.preventDefault();
+		props.addTodo({ text: todoText, isCompleted: false });
+	};
+	const inputChangeHandler = (event) => {
+		const text = event.target.value;
+		if (text.length < 5) {
+		} else {
+			setTodoText(text);
+		}
 	};
 
 	return (
 		<Container className="text-center w-50">
-			<form>
+			<form onSubmit={submitHandler}>
 				<Row>
 					<Col md>
 						<div className="input-group">
@@ -16,6 +33,7 @@ const form = () => {
 								type="text"
 								className="form-control"
 								placeholder="Enter ToDo"
+								onChange={inputChangeHandler}
 							/>
 							<span
 								className="input-group-text text-light"
@@ -51,8 +69,7 @@ const form = () => {
 									border: "none",
 									backgroundColor: "#ff6f47",
 									cursor: "pointer",
-								}}
-								onClick={(event) => focusInput(event)}>
+								}}>
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
 									width="16"
@@ -73,5 +90,9 @@ const form = () => {
 		</Container>
 	);
 };
-
-export default form;
+const mapDispatchToProps = (dispatch) => {
+	return {
+		addTodo: (todo) => dispatch(actions.addTodo(todo)),
+	};
+};
+export default connect(null, mapDispatchToProps)(Form);
