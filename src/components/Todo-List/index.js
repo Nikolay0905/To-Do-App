@@ -16,7 +16,13 @@ const todoList = (props) => {
 			));
 		}
 	}
-	return <Container className="w-50 h-auto p-3  mt-5">{todos}</Container>;
+	return (
+		<Container
+			className="w-50 p-3  mt-5 overflow-auto"
+			style={{ height: "auto", maxHeight: "50vh" }}>
+			{todos}
+		</Container>
+	);
 };
 
 export default todoList;

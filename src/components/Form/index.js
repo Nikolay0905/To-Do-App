@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 
 import { Row, Col, Container } from "react-bootstrap";
@@ -13,14 +13,16 @@ const Form = (props) => {
 	};
 	const submitHandler = (event) => {
 		event.preventDefault();
-		props.addTodo({ text: todoText, isCompleted: false });
+		if (todoText.length > 5 && todoText.match(/[a-zA-Z]/)) {
+			props.addTodo({ text: todoText, isCompleted: false });
+		} else {
+			props.showAndHideAlert();
+		}
+		setTodoText("");
 	};
 	const inputChangeHandler = (event) => {
 		const text = event.target.value;
-		if (text.length < 5) {
-		} else {
-			setTodoText(text);
-		}
+		setTodoText(text);
 	};
 
 	return (
@@ -33,6 +35,7 @@ const Form = (props) => {
 								type="text"
 								className="form-control"
 								placeholder="Enter ToDo"
+								value={todoText}
 								onChange={inputChangeHandler}
 							/>
 							<span
@@ -90,9 +93,11 @@ const Form = (props) => {
 		</Container>
 	);
 };
+
 const mapDispatchToProps = (dispatch) => {
 	return {
 		addTodo: (todo) => dispatch(actions.addTodo(todo)),
+		showAndHideAlert: () => dispatch(actions.showAndHideAlert()),
 	};
 };
 export default connect(null, mapDispatchToProps)(Form);

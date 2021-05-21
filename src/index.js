@@ -6,10 +6,14 @@ import reportWebVitals from "./reportWebVitals";
 
 import { createStore } from "redux";
 import { Provider } from "react-redux";
+import { combineReducers } from "redux";
 
 import todoReducer from "./Store/reducers/toDoReducer";
+import uiReducer from "./Store/reducers/uiReducer";
 
-const store = createStore(todoReducer);
+const reducers = combineReducers({ todos: todoReducer, UI: uiReducer });
+
+const store = createStore(reducers);
 
 ReactDOM.render(
 	<React.StrictMode>
